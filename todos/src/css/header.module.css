@@ -1,0 +1,38 @@
+.container {
+  max-width: 375px;
+  margin: 0 auto;
+  height: 100vh;
+}
+.container-light {
+  background: var(--veryLightGrayishBlue);
+}
+.container-dark {
+  background: var(--veryDarkBlue);
+}
+
+.container-top {
+  width: 100vw;
+  height: 25%;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.container-top__light {
+  background-image: url("../images/bg-mobile-light.jpg");
+}
+
+.container-top__dark {
+  background-image: url("../images/bg-mobile-dark.jpg");
+}
+.titel {
+  margin: 2em 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-size: 1.6rem;
+  color: var(--veryLightGray);
+}
+.container-top__text {
+  display: flex;
+  padding: 0 2em;
+  align-items: center;
+  justify-content: space-between;
+}
