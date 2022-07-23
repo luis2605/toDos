@@ -1,6 +1,8 @@
 .container {
+  position: absolute;
   max-width: 350px;
-  margin: -1.5em auto 1em auto;
+  max-height: 100vh;
+  margin: -1.5em 1em 1em 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -58,4 +60,11 @@
 .text-done {
   text-decoration: line-through;
   color: var(--darkGrayishBlue);
+}
+.todo-result {
+  justify-content: space-between;
+  padding: 0.5em 2em;
+}
+.todo-result p {
+  margin: 0 1.5em;
 }

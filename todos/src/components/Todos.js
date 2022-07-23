@@ -6,50 +6,66 @@ import erase from "../images/icon-cross.svg";
 const Todos = (props) => {
   const todoList = [
     {
+      id: "0",
       done: false,
       description: "Jog arround the park 3x",
     },
-    {
-      done: true,
-      description: "10 min meditation",
-    },
-    {
-      done: true,
-      description: "Read for 1 hour",
-    },
-    {
-      done: true,
-      description: "Pick up groceries",
-    },
-    {
-      done: true,
-      description: "Complete this project",
-    },
+    { id: "1", done: true, description: "10 min meditation" },
+    { id: "2", done: true, description: "Read for 1 hour" },
+    { id: "3", done: true, description: "Pick up groceries" },
+    { id: "4", done: true, description: "Complete this project" },
   ];
 
   const [todos, setTodos] = useState(todoList);
   const [input, setInput] = useState("");
+  const [key, setKey] = useState(5);
+
   const readInput = (event) => {
     const value = event.target.value;
+
     setInput(value);
-
-    console.log(input);
   };
+
   const addTodo = () => {
-    const newTodos = [...todos, { done: false, description: `${input}` }];
-    setTodos(newTodos);
-    console.log(newTodos);
+    if (input.length > 0) {
+      setKey((key) => {
+        return key + 1;
+      });
+      console.log(key);
+      const newTodos = [
+        ...todos,
+        { id: `${key}`, done: false, description: `${input}` },
+      ];
+      setTodos(newTodos);
+      console.log(todos);
+    }
   };
 
-  useEffect(() => {
-    localStorage.setItem(`done:false`, ` description:${input}`);
-  }, [todos, input]);
+  const clearCompleted = () => {
+    setTodos(todos.filter((completed) => completed.done !== true));
+  };
 
+  const markCompleted = (...args) => {};
   //map the array for single todos
-  const todoElement = todos.map((item, index) => {
+
+  const removeOld = (event) => {
+    console.log(todos);
+    const parentId = event.target.parentElement.id;
+    const logicForFiltering = (item) => {
+      console.log(item);
+      if (item.id !== parentId) {
+        return item;
+      }
+    };
+    const actTodos = [...todos.filter(logicForFiltering)];
+    setTodos(actTodos);
+  };
+
+  const todoElement = todos.map((item) => {
     return (
-      <div id={index} className={classes["old-todos"]}>
+      <div id={item.id} className={classes["old-todos"]}>
         <img
+          onClick={markCompleted}
           className={item.done ? classes["mark-done"] : classes.mark}
           src={mark}
           alt=""
@@ -57,7 +73,7 @@ const Todos = (props) => {
         <p className={item.done ? classes["text-done"] : classes.text}>
           {item.description}
         </p>
-        <img src={erase} alt="" />
+        <img onClick={removeOld} src={erase} alt="" />
       </div>
     );
   });
@@ -77,8 +93,11 @@ const Todos = (props) => {
         </button>
       </div>
       <div className={classes["todos-list"]}>{todoElement}</div>
+      <div className={[`${classes["old-todos"]} ${classes["todo-result"]}`]}>
+        <p>{todos.length} items left</p>
+        <p onClick={clearCompleted}>Clear completed</p>
+      </div>
     </div>
   );
 };
-
 export default Todos;

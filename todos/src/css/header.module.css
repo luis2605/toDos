@@ -11,7 +11,7 @@
 }
 
 .container-top {
-  width: 100vw;
+  max-width: 375px;
   height: 25%;
   background-repeat: no-repeat;
   background-size: contain;
