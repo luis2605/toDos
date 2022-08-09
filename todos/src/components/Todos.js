@@ -4,56 +4,84 @@ import mark from "../images/icon-check.svg";
 import erase from "../images/icon-cross.svg";
 
 const Todos = (props) => {
+  const randomKey = Math.floor(Math.random() * 100);
   const todoList = [
-    {
-      id: "0",
-      done: false,
-      description: "Jog arround the park 3x",
-    },
-    { id: "1", done: true, description: "10 min meditation" },
-    { id: "2", done: true, description: "Read for 1 hour" },
-    { id: "3", done: true, description: "Pick up groceries" },
-    { id: "4", done: true, description: "Complete this project" },
+    // {
+    //   key: Math.floor(Math.random() * 100),
+    //   id: "0",
+    //   done: false,
+    //   description: "Jog arround the park 3x",
+    // },
+    // {
+    //   key: Math.floor(Math.random() * 100),
+    //   id: "1",
+    //   done: true,
+    //   description: "10 min meditation",
+    // },
+    // {
+    //   key: Math.floor(Math.random() * 100),
+    //   id: "2",
+    //   done: true,
+    //   description: "Read for 1 hour",
+    // },
+    // {
+    //   key: Math.floor(Math.random() * 100),
+    //   id: "3",
+    //   done: true,
+    //   description: "Pick up groceries",
+    // },
+    // {
+    //   key: Math.floor(Math.random() * 100),
+    //   id: "4",
+    //   done: true,
+    //   description: "Complete this project",
+    // },
   ];
 
   const [todos, setTodos] = useState(todoList);
   const [input, setInput] = useState("");
-  const [key, setKey] = useState(5);
 
-  const readInput = (event) => {
-    const value = event.target.value;
+  const [id, setId] = useState(0);
 
-    setInput(value);
+  const getInput = (event) => {
+    setInput(event.target.value);
   };
 
-  const addTodo = () => {
-    if (input.length > 0) {
-      setKey((key) => {
-        return key + 1;
+  const addItem = (event) => {
+    if (input.trim().length > 0) {
+      setId(id + 1);
+      setTodos((todos) => {
+        return [
+          ...todos,
+          {
+            id: id,
+
+            done: false,
+            description: input,
+          },
+        ];
       });
-      console.log(key);
-      const newTodos = [
-        ...todos,
-        { id: `${key}`, done: false, description: `${input}` },
-      ];
-      setTodos(newTodos);
-      console.log(todos);
     }
   };
 
-  const clearCompleted = () => {
-    setTodos(todos.filter((completed) => completed.done !== true));
+  const checkOnDone = (event) => {
+    console.log(todos);
+    const parentId = event.target.parentElement.id;
+    const newState = todos.map((item) => {
+      if (item.id == parentId) {
+        return { ...item, done: !item.done };
+      }
+      return item;
+    });
+    setTodos(newState);
   };
 
-  const markCompleted = (...args) => {};
-  //map the array for single todos
-
   const removeOld = (event) => {
-    console.log(todos);
     const parentId = event.target.parentElement.id;
     const logicForFiltering = (item) => {
       console.log(item);
-      if (item.id !== parentId) {
+
+      if (item.id != parentId) {
         return item;
       }
     };
@@ -61,11 +89,24 @@ const Todos = (props) => {
     setTodos(actTodos);
   };
 
+  const clearCompleted = () => {
+    const logicForFiltering = (item) => {
+      console.log(item);
+
+      if (item.done != true) {
+        return item;
+      }
+    };
+    const actTodos = [...todos.filter(logicForFiltering)];
+    setTodos(actTodos);
+  };
+  //map the array for single todos
+
   const todoElement = todos.map((item) => {
     return (
-      <div id={item.id} className={classes["old-todos"]}>
+      <div key={item.id} id={item.id} className={classes["old-todos"]}>
         <img
-          onClick={markCompleted}
+          onClick={checkOnDone}
           className={item.done ? classes["mark-done"] : classes.mark}
           src={mark}
           alt=""
@@ -73,7 +114,7 @@ const Todos = (props) => {
         <p className={item.done ? classes["text-done"] : classes.text}>
           {item.description}
         </p>
-        <img onClick={removeOld} src={erase} alt="" />
+        <img id={id} onClick={removeOld} src={erase} alt="" />
       </div>
     );
   });
@@ -83,12 +124,12 @@ const Todos = (props) => {
       <div className={classes["todo-container"]}>
         <img className={classes.mark} src={mark} alt="" />
         <input
-          onChange={readInput}
+          onChange={getInput}
           className={classes["input-bar"]}
           type="text"
           placeholder="Create a new todo..."
         ></input>
-        <button onClick={addTodo} className={classes.btn}>
+        <button onClick={addItem} className={classes.btn}>
           Add
         </button>
       </div>

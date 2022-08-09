@@ -1,7 +1,10 @@
 .container {
+  display: flex;
+  flex-direction: column;
   max-width: 375px;
+  min-height: 100vh;
+
   margin: 0 auto;
-  height: 100vh;
 }
 .container-light {
   background: var(--veryLightGrayishBlue);
@@ -14,7 +17,6 @@
   max-width: 375px;
   height: 25%;
   background-repeat: no-repeat;
-  background-size: contain;
 }
 .container-top__light {
   background-image: url("../images/bg-mobile-light.jpg");
