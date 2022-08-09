@@ -1,11 +1,11 @@
 .container {
-  position: absolute;
   max-width: 350px;
-
   margin: -1.5em 1em 1em 1em;
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
+  align-content: center;
 }
 .todo-container {
   width: 350px;
